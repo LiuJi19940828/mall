@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <properties resource="generator.properties"/>
+    <context id="MySqlContext" targetRuntime="MyBatis3" defaultModelType="flat">
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
+        <property name="javaFileEncoding" value="UTF-8"/>
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
+        <plugin type="org.mybatis.generator.plugins.ToStringPlugin"/>
+        <commentGenerator type="com.liuji.mall.mbg.config.MyCommentGenerator">
+            <property name="suppressAllComments" value="false"/>
+            <property name="suppressDate" value="false"/>
+            <property name="addRemarkComments" value="false"/>
+        </commentGenerator>
+
+        <jdbcConnection driverClass="${jdbc.driverClass}"
+                        connectionURL="${jdbc.connectionURL}"
+                        userId="${jdbc.userId}"
+                        password="${jdbc.password}">
+        </jdbcConnection>
+
+        <javaModelGenerator targetPackage="com.liuji.mall.mbg.model"
+                            targetProject="/Users/liuji/IdeaProjects/mall/mall-mbg/src/main/java"/>
+
+        <sqlMapGenerator targetPackage="com.liuji.mall.mbg.mapper"
+                         targetProject="/Users/liuji/IdeaProjects/mall/mall-mbg/src/main/resources"/>
+
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.liuji.mall.mbg.mapper"
+                             targetProject="/Users/liuji/IdeaProjects/mall/mall-mbg/src/main/java"/>
+        <!--生成全部表tableName设为%-->
+        <table tableName="preference_area">
+        </table>
+    </context>
+</generatorConfiguration>

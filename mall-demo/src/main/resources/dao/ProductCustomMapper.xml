@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liuji.mall.dao.ProductCustomMapper">
+    <resultMap id="productInfoMap" type="com.liuji.mall.dto.ProductResult"
+               extends="com.liuji.mall.mbg.mapper.ProductMapper.ResultMapWithBLOBs">
+        <result column="cateParentId" property="cateParentId" jdbcType="BIGINT"/>
+        <collection property="productLadderList" columnPrefix="ladder_"
+                    resultMap="com.liuji.mall.mbg.mapper.ProductLadderMapper.BaseResultMap"></collection>
+        <collection property="productFullReductionList" columnPrefix="full_"
+                    resultMap="com.liuji.mall.mbg.mapper.ProductFullReductionMapper.BaseResultMap"/>
+        <collection property="memberPriceList" columnPrefix="member_"
+                    resultMap="com.liuji.mall.mbg.mapper.MemberPriceMapper.BaseResultMap"/>
+        <collection property="skuStockList" columnPrefix="sku_"
+                    resultMap="com.liuji.mall.mbg.mapper.SkuStockMapper.BaseResultMap"/>
+        <collection property="productAttributeValueList" columnPrefix="pav_"
+                    resultMap="com.liuji.mall.mbg.mapper.ProductAttributeValueMapper.BaseResultMap"/>
+        <collection property="subjectProductRelationList" columnPrefix="sub_"
+                    resultMap="com.liuji.mall.mbg.mapper.SubjectProductRelationMapper.BaseResultMap"/>
+        <collection property="preferenceAreaProductRelationList" columnPrefix="pre_"
+                    resultMap="com.liuji.mall.mbg.mapper.PreferenceAreaProductRelationMapper.BaseResultMap"/>
+    </resultMap>
+    <select id="getProductById" resultMap="productInfoMap" parameterType="java.lang.Long">
+        SELECT *,
+               pc.parent_id             cateParentId,
+               l.id                     ladder_id,
+               l.discount               ladder_discount,
+               l.count                  ladder_count,
+               l.price                  ladder_price,
+               pav.id                   pav_id,
+               pav.product_id           pav_product_id,
+               pav.product_attribute_id pav_product_attribute_id,
+               pav.value                pav_value,
+               s.id                     sku_id,
+               s.product_id             sku_product_id,
+               s.price                  sku_price,
+               s.low_stock              sku_low_stock,
+               s.pic                    sku_pic,
+               s.sale                   sku_sale,
+               s.sku_code               sku_sku_code,
+               s.stock                  sku_stock,
+               s.sp_data                sku_sp_data,
+               pf.id                    full_id,
+               pf.product_id            full_product_id,
+               pf.full_price            full_full_price,
+               pf.reduce_price          full_reduce_price,
+               m.id                     member_id,
+               m.product_id             member_product_id,
+               m.member_level_id        member_member_level_id,
+               m.member_price           member_member_price,
+               m.member_level_name      member_member_level_name,
+               pre.id                   pre_id,
+               pre.preference_area_id   pre_preference_area_id,
+               pre.product_id           pre_product_id,
+               sub.id                   sub_id,
+               sub.subject_id           sub_subject_id,
+               sub.product_id           sub_product_id
+        FROM product p
+                 LEFT JOIN product_category pc ON pc.id = p.product_category_id
+                 LEFT JOIN product_ladder l ON p.id = l.product_id
+                 LEFT JOIN product_full_reduction pf ON pf.product_id = p.id
+                 LEFT JOIN member_price m ON m.product_id = p.id
+                 LEFT JOIN sku_stock s ON s.product_id = p.id
+                 LEFT JOIN product_attribute_value pav ON pav.product_id = p.id
+                 LEFT JOIN subject_product_relation sub ON sub.product_id = p.id
+                 LEFT JOIN preference_area_product_relation pre ON pre.product_id = p.id
+        WHERE p.id = #{id};
+
+    </select>
+    <!--    <select id="selectSubjectProductRelationByProductId"-->
+    <!--            resultMap="com.liuji.mall.mbg.mapper.SubjectProductRelationMapper.BaseResultMap">-->
+    <!--        select *-->
+    <!--        from subject_product_relation-->
+    <!--        where product_id = #{productId}-->
+    <!--    </select>-->
+    <!--    <select id="selectPreferenceAreaProductRelationByProductId"-->
+    <!--            resultMap="com.liuji.mall.mbg.mapper.PreferenceAreaProductRelationMapper.BaseResultMap">-->
+    <!--        select *-->
+    <!--        from preference_area_product_relation-->
+    <!--        where product_id = #{productId}-->
+<!--</select>-->
+
+
+        </mapper>

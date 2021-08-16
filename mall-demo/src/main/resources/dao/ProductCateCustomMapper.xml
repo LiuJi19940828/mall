@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liuji.mall.dao.ProductCateCustomMapper">
+    <resultMap id="listWithChildrenMap" type="com.liuji.mall.model.ProductCateWithChildrenItem"
+               extends="com.liuji.mall.mbg.mapper.ProductCateMapper.BaseResultMap">
+        <collection property="children" columnPrefix="child_"
+                    resultMap="com.liuji.mall.mbg.mapper.ProductCateMapper.BaseResultMap"></collection>
+    </resultMap>
+    <select id="getProductListWithChildren" resultMap="listWithChildrenMap">
+        select c.id,
+               c.name,
+               c1.id   child_id,
+               c1.name child_name
+        from product_category c
+                 left join product_category c1
+                           on c.id = c1.parent_id
+        where c.parent_id = 0
+    </select>
+    <resultMap id="menuListWithChildren" type="com.liuji.mall.dto.ProductCateResult"
+               extends="com.liuji.mall.mbg.mapper.ProductCateMapper.BaseResultMap">
+        <collection property="subMenuList" columnPrefix="sub_"
+                    resultMap="com.liuji.mall.mbg.mapper.ProductCateMapper.BaseResultMap"></collection>
+    </resultMap>
+    <select id="getChildMenuList" resultMap="menuListWithChildren" parameterType="java.lang.Long">
+        select *,
+               c1.id            sub_id,
+               c1.parent_id     sub_parent_id,
+               c1.name          sub_name,
+               c1.level         sub_level,
+               c1.product_count sub_product_count,
+               c1.product_unit  sub_product_unit,
+               c1.nav_status    sub_nav_status,
+               c1.show_status   sub_show_status,
+               c1.sort          sub_sort,
+               c1.icon          sub_icon,
+               c1.keywords      sub_keywords,
+               c1.description   sub_description
+        from product_category c
+                 left join product_category c1
+                           on c.id = c1.parent_id
+        where c.id = #{id,jdbcType=BIGINT}
+
+    </select>
+</mapper>

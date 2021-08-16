@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liuji.mall.dao.EsProductMapper">
+    <resultMap id="EsProductInfo" type="com.liuji.mall.elasticsearch.document.EsProduct" autoMapping="true">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <collection property="attributeValueList" ofType="com.liuji.mall.elasticsearch.obj.EsProductAttributeValue"
+                    columnPrefix="attr_">
+            <id column="id" property="id" jdbcType="BIGINT"/>
+            <result column="product_attribute_id" property="productAttributeId" jdbcType="BIGINT"/>
+            <result column="type" property="type"/>
+            <result column="name" property="name"/>
+            <result column="value" property="value"/>
+        </collection>
+    </resultMap>
+    <select id="selectEsProductInfoById" resultMap="EsProductInfo" parameterType="java.lang.Long">
+        select
+        p.id id,
+        p.brand_id brandId,
+        p.brand_name brandName,
+        p.product_category_id productCategoryId,
+        p.product_category_name productCategoryName,
+        p.name name,
+        p.pic pic,
+        p.sub_title subTitle,
+        p.keywords keywords,
+        p.new_status newStatus,
+        p.recommand_status recommandStatus,
+        p.verify_status verifyStatus,
+        p.sort sort,
+        p.sale sale,
+        p.price price,
+        p.stock stock,
+        p.promotion_type promotionType,
+        p.product_sn productSn,
+        pav.id attr_id,
+        pav.value attr_value,
+        pav.product_attribute_id attr_product_attribute_id,
+        pa.type attr_type,
+        pa.name attr_name
+        from product p
+        left join product_attribute_value pav on pav.product_id = p.id
+        left join product_attribute pa on pa.id =pav.product_attribute_id
+        where p.publish_status = 1 and p.delete_status = 0
+        <if test="id!=null">
+            and p.id =#{id}
+        </if>
+    </select>
+
+
+</mapper>

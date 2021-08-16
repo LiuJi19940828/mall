@@ -1,0 +1,55 @@
+server:
+  port: 8090
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: liuji1994
+    druid:
+      url: jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+      username: root
+      password: liuji1994
+      driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+#  redis:
+#    host: localhost
+#    port: 6379
+#    database: 0
+#    connect-timeout: 3000ms
+#    jedis:
+#      pool:
+#        max-active: 8
+#        max-wait: -1ms
+#        max-idle: 8
+#        min-idle: 0
+  data:
+#    elasticsearch:
+#      repositories:
+#        enabled: true
+#    mongodb:
+#      username: root
+#      password: liuji1994
+#      port: 27017
+#      database: test
+#      host: localhost
+#  rabbitmq:
+#    host: localhost
+#    username: root
+#    password: liuji1994
+#    port: 5672
+#    virtual-host: /mall
+#      cluster-nodes: http://127.0.0.1:9200
+#      cluster-name: elasticsearch
+mybatis:
+  mapper-locations:
+    - classpath:dao/*.xml
+    - classpath:com/**/mapper/*.xml
+jwt:
+  tokenHeader:Authorization
+  secret:mall-liuji-secret
+  expiration:604800
+  tokenHead:bearer
+pagehelper:
+#  dialect: mysql
+  reasonable: true
+
