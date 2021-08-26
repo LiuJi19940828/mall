@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liuji.mall.dao.OrderDao">
+    <resultMap id="orderInfo" type="com.liuji.mall.dto.OrderResult"
+               extends="com.liuji.mall.mbg.mapper.OrderMapper.BaseResultMap">
+        <collection property="orderItemList" columnPrefix="item_"
+                    resultMap="com.liuji.mall.mbg.mapper.OrderItemMapper.BaseResultMap"></collection>
+        <collection property="orderOperateHistoryList" columnPrefix="history_"
+                    resultMap="com.liuji.mall.mbg.mapper.OrderOperateHistoryMapper.BaseResultMap"></collection>
+    </resultMap>
+
+    <select id="getOrderById" resultMap="orderInfo">
+        select o.*,
+               oi.id               item_id,
+               oi.product_id       item_product_id,
+               oi.product_sn       item_product_sn,
+               oi.product_pic      item_product_pic,
+               oi.product_name     item_product_name,
+               oi.product_brand    item_product_brand,
+               oi.product_price    item_product_price,
+               oi.product_quantity item_product_quantity,
+               oi.product_attr     item_product_attr,
+               ooh.id              history_id,
+               ooh.operate_man     history_operate_man,
+               ooh.create_time     history_create_time,
+               ooh.order_status    history_order_status,
+               ooh.note            history_note
+        from orders o
+                 left join order_item oi on o.id = oi.order_id
+                 left join order_operate_history ooh on o.id = ooh.order_id
+        where o.id = #{id}
+
+    </select>
+
+
+</mapper>

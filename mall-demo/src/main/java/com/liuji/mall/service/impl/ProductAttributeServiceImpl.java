@@ -25,4 +25,34 @@ public class ProductAttributeServiceImpl implements ProductAttributeService {
         criteria.andTypeEqualTo(type);
         return mapper.selectByExample(example);
     }
+
+    @Override
+    public Integer deleteBatch(List<Long> ids) {
+        ProductAttributeExample example = new ProductAttributeExample();
+        example.createCriteria().andIdIn(ids);
+        return mapper.deleteByExample(example);
+    }
+
+    @Override
+    public Integer delete(Long id) {
+        return mapper.deleteByPrimaryKey(id);
+    }
+
+    @Override
+    public ProductAttribute getById(Long id) {
+        return mapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public Integer update(Long id, ProductAttribute attribute) {
+        ProductAttributeExample example = new ProductAttributeExample();
+        example.createCriteria().andIdEqualTo(id);
+        return mapper.updateByExampleSelective(attribute, example);
+    }
+
+    @Override
+    public Integer add(ProductAttribute attribute) {
+        attribute.setId(null);
+        return mapper.insertSelective(attribute);
+    }
 }

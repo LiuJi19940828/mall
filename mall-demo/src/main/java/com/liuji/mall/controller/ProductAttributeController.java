@@ -29,4 +29,54 @@ public class ProductAttributeController {
         CommonPage<ProductAttribute> page = CommonPage.restPage(list);
         return CommonResult.success(page);
     }
+
+    @PostMapping("/deleteBatch")
+    @ApiOperation("批量删除")
+    public CommonResult deleteBatch(@RequestParam @ApiParam("要删除的ids") List<Long> ids) {
+        Integer result = service.deleteBatch(ids);
+        if (result > 0) {
+            return CommonResult.success(result);
+        } else {
+            return CommonResult.failure(result);
+        }
+    }
+
+    @DeleteMapping("/delete/{id}")
+    @ApiOperation("删除")
+    public CommonResult delete(@PathVariable("id") Long id) {
+        Integer result = service.delete(id);
+        if (result > 0) {
+            return CommonResult.success(result);
+        } else {
+            return CommonResult.failure(result);
+        }
+    }
+
+    @GetMapping("/attr/{id}")
+    @ApiOperation("根据ID获取属性")
+    public CommonResult getById(@PathVariable("id") Long id) {
+        ProductAttribute p = service.getById(id);
+        return CommonResult.success(p);
+    }
+
+    @PostMapping("/update/{id}")
+    @ApiOperation("更新属性")
+    public CommonResult update(@PathVariable("id") Long id,
+                               @RequestBody ProductAttribute attribute) {
+        Integer result = service.update(id, attribute);
+        if (result > 0) {
+            return CommonResult.success(result);
+        } else
+            return CommonResult.failure(result);
+    }
+
+    @PostMapping("/add")
+    @ApiOperation("添加属性")
+    public CommonResult add(@RequestBody ProductAttribute attribute) {
+        Integer result = service.add(attribute);
+        if (result > 0) {
+            return CommonResult.success(result);
+        } else
+            return CommonResult.failure(result);
+    }
 }

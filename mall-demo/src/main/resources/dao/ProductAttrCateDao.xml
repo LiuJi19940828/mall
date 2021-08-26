@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.liuji.mall.dao.ProductAttrCateDao">
-    <resultMap id="attrList" type="com.liuji.mall.dto.ProductAttrCateResult"
+    <resultMap id="attrList" type="com.liuji.mall.dto.ProductAttrCateResult1"
                extends="com.liuji.mall.mbg.mapper.ProductAttributeCategoryMapper.BaseResultMap">
         <collection property="productAttributeList" columnPrefix="attr_"
                     resultMap="com.liuji.mall.mbg.mapper.ProductAttributeMapper.BaseResultMap"></collection>
@@ -22,6 +22,27 @@
         from product_attribute_category pac
                  left join product_attribute pa on pac.id = pa.product_attribute_category_id
 
+    </select>
+    <resultMap id="typeInfo" type="com.liuji.mall.dto.ProductAttrCateResult2"
+               extends="com.liuji.mall.mbg.mapper.ProductAttributeCategoryMapper.BaseResultMap">
+        <collection property="attributeList" columnPrefix="attr_"
+                    resultMap="com.liuji.mall.mbg.mapper.ProductAttributeMapper.BaseResultMap"></collection>
+    </resultMap>
+    <select id="getTypeList" resultMap="typeInfo" parameterType="java.lang.Integer">
+        select *,
+               pa1.id              attr_id,
+               pa1.name            attr_name,
+               pa1.select_type     attr_select_type,
+               pa1.input_type      attr_input_type,
+               pa1.input_list      attr_input_list,
+               pa1.sort            attr_sort,
+               pa1.filter_type     attr_filter_type,
+               pa1.search_type     attr_search_type,
+               pa1.related_status  attr_related_status,
+               pa1.hand_add_status attr_hand_add_status,
+               pa1.type            attr_type
+        from product_attribute_category pac
+                 left join product_attribute pa1 on pac.id = pa1.product_attribute_category_id and pa1.type = #{type,jdbcType=INTEGER}
     </select>
 
 

@@ -6,7 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 import java.util.List;
 
-public class ProductAttrCateResult extends ProductAttributeCategory {
+public class ProductAttrCateResult1 extends ProductAttributeCategory {
 
     @ApiModelProperty("属性值列表")
     List<ProductAttribute> productAttributeList;

@@ -32,7 +32,7 @@
         <javaClientGenerator type="XMLMAPPER" targetPackage="com.liuji.mall.mbg.mapper"
                              targetProject="/Users/liuji/IdeaProjects/mall/mall-mbg/src/main/java"/>
         <!--生成全部表tableName设为%-->
-        <table tableName="preference_area">
+        <table tableName="order_operate_history" >
         </table>
     </context>
 </generatorConfiguration>

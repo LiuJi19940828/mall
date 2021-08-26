@@ -2,7 +2,9 @@ package com.liuji.mall.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.liuji.mall.dao.ProductAttrCateDao;
-import com.liuji.mall.dto.ProductAttrCateResult;
+
+import com.liuji.mall.dto.ProductAttrCateResult1;
+import com.liuji.mall.dto.ProductAttrCateResult2;
 import com.liuji.mall.mbg.mapper.ProductAttributeCategoryMapper;
 import com.liuji.mall.mbg.model.ProductAttributeCategory;
 import com.liuji.mall.mbg.model.ProductAttributeCategoryExample;
@@ -27,7 +29,18 @@ public class ProductAttrCateServiceImpl implements ProductAttrCateService {
     }
 
     @Override
-    public List<ProductAttrCateResult> getAttrList() {
+    public List<ProductAttrCateResult1> getAttrList() {
         return productAttrCateDao.getAttrList();
+    }
+
+    @Override
+    public List<ProductAttrCateResult2> getTypeList(Integer type, Integer pageSize, Integer pageNum) {
+        PageHelper.startPage(pageNum, pageSize);
+        return productAttrCateDao.getTypeList(type);
+    }
+
+    @Override
+    public Integer deleteById(Long id) {
+        return mapper.deleteByPrimaryKey(id);
     }
 }
